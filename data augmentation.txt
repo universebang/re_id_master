@@ -1,0 +1,41 @@
+必看的内容
+在深度学习中，有的时候训练集不够多，或者某一类数据较少，或者为了防止过拟合，让模型更加鲁棒性，data augmentation是一个不错的选择。
+Color Jittering：对颜色的数据增强：图像亮度、饱和度、对比度变化（此处对色彩抖动的理解不知是否得当）；
+PCA Jittering：首先按照RGB三个颜色通道计算均值和标准差，再在整个训练集上计算协方差矩阵，进行特征分解，得到特征向量和特征值，用来做PCA Jittering；
+Random Crop：采用随机图像差值方式，对图像进行裁剪、缩放；包括Scale Jittering方法（VGG及ResNet模型使用）或者尺度和长宽比增强变换；
+Rotation/Reflection：旋转/仿射变换；
+Horizontal/Vertical Flip：水平/垂直翻转；
+Label shuffle：类别不平衡数据的增广，参见海康威视ILSVRC2016的report；另外，文中提出了一种Supervised Data Augmentation方法，有兴趣的朋友的可以动手实验下。
+
+loss:triplet loss 改为hard mining triplet loss
+# In the spirit of "The Devil is in the Middle: Exploiting Mid-level Representations for Cross-Domain Instance Matching." Yu, Qian, et al. arXiv:1711.08106 (2017).
+许多视觉问题需要跨不同域匹配对象实例的图像。这些包括基于细粒度草图的图像检索(FG-SBIR)和人员重新识别(Person ReID)。现有的方法试图学习联合嵌入空间，其中来自不同域的图像可以直接进行比较。在大多数情况下，这个空间是由深层神经网络（DNN）的最后一层的输出定义的，它主要包含高语义级别的特征。在本文中，我们认为高级和中级特征都与跨域实例匹配（CDIM）相关。重要的是，中级功能已经存在于DNN的早期层中。它们只需要被提取、表示并与最终层适当地融合。基于这个简单而强大的思想，我们提出了一个统一的CDIM框架。通过举例说明我们的FG-SBIR和ReID框架，我们发现我们的简单模型可以轻松地击败最先进的模型，这些模型通常配备了更复杂的体系结构。
+optimizer.step()通常用在每个mini-batch之中，而scheduler.step()通常用在epoch里面,但是不绝对，可以根据具体的需求来做。只有用了optimizer.step()，模型才会更新，而scheduler.step()是对lr进行调整。
+criterion  loss 使用的是交叉上损失函数  应该加上Tripplet loss
+part -4 数据增强的方法可以介绍下
+input:
+(16, 3, 384, 192)
+model.conv1(x):
+(16, 64, 192, 96)
+model.bn1:
+(16, 64, 192, 96)
+model.relu
+(16, 64, 192, 96)
+model.maxpool
+(16, 64, 96, 48)
+model.layer1
+(16, 256, 96, 48)
+x = self.model.layer2(x)
+(16, 512, 48, 24)
+model.layer3(x)
+(16, 1024, 24, 12)
+model.layer4
+(16, 2048, 24, 12)
+avgpool
+(16, 2048, 4, 1)
+dropout  dropout 不改变它的维度
+(16, 2048, 4, 1)
+
+
+
+
